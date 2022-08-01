@@ -16,5 +16,5 @@ export const usePokeApi = () => {
     fetchPokemon();
   }, []);
 
-  return { pokemons };
+  return { pokemons, setPokemon };
 };

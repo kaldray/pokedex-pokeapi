@@ -1,7 +1,6 @@
 section {
   width: 100%;
   min-height: 100vh;
-  margin-top: 100px;
   padding: 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -27,4 +26,12 @@ section {
     margin-bottom: 50px;
     width: 100vw;
   }
+}
+
+.container__search {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 5rem 0;
 }
