@@ -1,0 +1,30 @@
+section {
+  width: 100%;
+  min-height: 100vh;
+  margin-top: 100px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  row-gap: 50px;
+  place-items: center;
+  @media (max-width: 480px) {
+    grid-template-columns: auto;
+    grid-column: 1;
+    row-gap: 0;
+  }
+}
+
+.card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  @media screen and (max-width: 480px) {
+    margin-bottom: 50px;
+    width: 100vw;
+  }
+}
