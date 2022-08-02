@@ -6,26 +6,13 @@ export const PokemonCard = ({ pokemon }) => {
   const [imageUrl, setimageURL] = useState("");
   const { name, url } = pokemon;
 
+  function extractId() {
+    const id = url.split("/").reverse().at(1);
+    setID(id);
+  }
+
   useEffect(() => {
-    switch (url.length) {
-      case 36:
-        setID(url?.slice(-2, -1));
-        break;
-      case 37:
-        setID(url?.slice(-3, -1));
-        break;
-      case 38:
-        setID(url?.slice(-4, -1));
-        break;
-      case 39:
-        setID(url?.slice(-5, -1));
-        break;
-      case 40:
-        setID(url?.slice(-6, -1));
-        break;
-      default:
-        setID(url?.slice(-2, -1));
-    }
+    extractId();
     if (id !== undefined) {
       setimageURL(
         `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
