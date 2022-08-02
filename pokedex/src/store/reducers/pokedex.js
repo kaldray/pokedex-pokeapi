@@ -7,7 +7,7 @@ export const pokemonSlice = createSlice({
   initialState: initialState,
   reducers: {
     addToPokdex: (state, action) => {
-      return initialState;
+      state = state.push(action.payload);
     },
   },
 });

@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { usePokeApi } from "../services";
 import { PokemonCard, NavBar } from "../Components";
 import axios from "axios";
+import { addToPokdex } from "../store/reducers/pokedex";
+import { useDispatch } from "react-redux";
 
 export const Home = () => {
   let { pokemons } = usePokeApi();
@@ -11,6 +13,7 @@ export const Home = () => {
   const [scrollPosition, setScrollPosition] = useState();
   const [nextResult, setNextResult] = useState([]);
   const inputValue = useRef(null);
+  const dispatch = useDispatch();
 
   function getScrollPosition(e) {
     e.preventDefault();
@@ -31,6 +34,10 @@ export const Home = () => {
     if (inputValue.current.value === "") {
       setPokemonData(filterPokemonData);
     }
+  }
+
+  function getInfo(pokemonInfo) {
+    dispatch(addToPokdex(pokemonInfo));
   }
 
   useEffect(() => {
@@ -74,13 +81,17 @@ export const Home = () => {
     <>
       <NavBar />
       <div className="container__search">
-        <input onChange={searchPokemonByName} ref={inputValue} type="text" />
+        <input ref={inputValue} type="text" />
       </div>
-      <section>
+      <section className="container__list">
         {pokemonData &&
-          pokemonData.map((pokemon) => {
-            return <PokemonCard key={pokemon.name} pokemon={pokemon} />;
-          })}
+          pokemonData.map((pokemon) => (
+            <PokemonCard
+              getInfo={getInfo}
+              key={pokemon.name}
+              pokemon={pokemon}
+            />
+          ))}
       </section>
     </>
   );

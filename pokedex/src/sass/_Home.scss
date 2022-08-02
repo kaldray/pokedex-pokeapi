@@ -1,4 +1,4 @@
-section {
+.container__list {
   width: 100%;
   padding: 0;
   display: grid;
@@ -11,6 +11,10 @@ section {
     grid-column: 1;
     row-gap: 0;
   }
+}
+
+.top {
+  padding-top: 4rem;
 }
 
 .card {
