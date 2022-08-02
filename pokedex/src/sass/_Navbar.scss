@@ -1,0 +1,32 @@
+nav {
+  width: 100%;
+  background-color: #e6bc2f;
+  height: 4rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  a {
+    color: #000;
+    font-family: "Montserrat", "sans-serif";
+    font-size: 1rem;
+    &:hover {
+      color: lighten(#000, 20%);
+    }
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+  gap: 1rem;
+
+  h1 {
+    font-family: "Pokemon Solid";
+    font-size: 1.5rem;
+  }
+}

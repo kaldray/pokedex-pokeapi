@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { usePokeApi } from "../services";
-import { PokemonCard } from "../Components";
+import { PokemonCard, NavBar } from "../Components";
 import axios from "axios";
 
 export const Home = () => {
@@ -72,6 +72,7 @@ export const Home = () => {
 
   return (
     <>
+      <NavBar />
       <div className="container__search">
         <input onChange={searchPokemonByName} ref={inputValue} type="text" />
       </div>
