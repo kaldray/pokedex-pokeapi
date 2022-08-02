@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { usePokeApi } from "../services";
 import { PokemonCard } from "../Components";
 import axios from "axios";
 
 export const Home = () => {
   let { pokemons } = usePokeApi();
-  const [pokemonData, setPokemonData] = useState();
+  const [pokemonData, setPokemonData] = useState([]);
+  const [filterPokemonData, setFilterPokemonData] = useState([]);
   const [windowHeigth, setWindowHeigth] = useState();
   const [scrollPosition, setScrollPosition] = useState();
-  const [nextResult, setNextResult] = useState();
+  const [nextResult, setNextResult] = useState([]);
+  const inputValue = useRef(null);
 
   function getScrollPosition(e) {
     e.preventDefault();
-    e.stopPropagation();
     const documentHeigth = Math.ceil(document.documentElement.scrollHeight);
     const windowHeight = Math.ceil(window.innerHeight);
     const scroll = Math.ceil(window.scrollY);
@@ -20,8 +21,21 @@ export const Home = () => {
     setScrollPosition(documentHeigth - windowHeight);
   }
 
+  function searchPokemonByName() {
+    if (inputValue.current !== null) {
+      const filtredPokemonList = filterPokemonData.filter((pokemon) => {
+        return pokemon.name.toLowerCase().includes(inputValue.current.value);
+      });
+      setPokemonData(filtredPokemonList);
+    }
+    if (inputValue.current.value === "") {
+      setPokemonData(filterPokemonData);
+    }
+  }
+
   useEffect(() => {
     setPokemonData(pokemons?.results);
+    setFilterPokemonData(pokemons?.results);
     setNextResult(pokemons?.next);
   }, [pokemons]);
 
@@ -42,6 +56,10 @@ export const Home = () => {
           console.log(res.data.next);
           setNextResult(res.data.next);
           setPokemonData((prevState) => [...prevState, ...res.data.results]);
+          setFilterPokemonData((prevState) => [
+            ...prevState,
+            ...res.data.results,
+          ]);
         })
         .catch((error) => {
           console.log(error);
@@ -55,12 +73,12 @@ export const Home = () => {
   return (
     <>
       <div className="container__search">
-        <input type="text" />
+        <input onChange={searchPokemonByName} ref={inputValue} type="text" />
       </div>
       <section>
         {pokemonData &&
-          pokemonData.map((pokemon, id) => {
-            return <PokemonCard key={id} pokemon={pokemon} />;
+          pokemonData.map((pokemon) => {
+            return <PokemonCard key={pokemon.name} pokemon={pokemon} />;
           })}
       </section>
     </>
