@@ -1,17 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = {
+  pokemons: [],
+};
 
 export const pokemonSlice = createSlice({
   name: "pokemon",
   initialState: initialState,
   reducers: {
     addToPokdex: (state, action) => {
-      state = state.push(action.payload);
+      state.pokemons.push(action.payload);
+    },
+    removeFromPokdex: (state, action) => {
+      return state.pokemons.filter((val) => {
+        return val !== action.payload.name;
+      });
     },
   },
 });
 
-export const { addToPokdex } = pokemonSlice.actions;
+export const { addToPokdex, removeFromPokdex } = pokemonSlice.actions;
 
 export default pokemonSlice.reducer;
