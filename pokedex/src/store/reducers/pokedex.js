@@ -12,8 +12,8 @@ export const pokemonSlice = createSlice({
       state.pokemons.push(action.payload);
     },
     removeFromPokdex: (state, action) => {
-      return state.pokemons.filter((val) => {
-        return val !== action.payload.name;
+      state.pokemons = state.pokemons.filter(({ name }) => {
+        return name !== action.payload.name;
       });
     },
   },

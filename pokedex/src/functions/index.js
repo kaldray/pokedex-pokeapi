@@ -8,6 +8,6 @@ export function checkIndex(reduxState, pokemonCard) {
     const findPokemon = reduxState.find((val) => {
       return val.name === pokemonCard.name;
     });
-    return findPokemon;
+    return findPokemon?.name;
   }
 }
