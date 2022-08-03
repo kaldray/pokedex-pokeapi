@@ -8,7 +8,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Pages.Home />} />
-          <Route path="/details:id" element={<Pages.PokemonDetails />} />
+          <Route path="/details/:id" element={<Pages.PokemonDetails />} />
           <Route path="/pokedex" element={<Pages.Pokedex />} />
           <Route path="*" element={<Pages.Home />} />
         </Routes>

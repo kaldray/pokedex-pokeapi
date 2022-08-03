@@ -1,14 +1,18 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 // @ts-ignore
 import { ReactComponent as Pokeball } from "../assets/pokeballHome.svg";
 
 export const NavBar = () => {
+  const navigate = useNavigate();
+  function goToHome() {
+    navigate("/");
+  }
   return (
     <>
       <nav>
         <div className="container">
-          <h1>Pokedex</h1>
+          <h1 onClick={goToHome}> Pokedex</h1>
           <Pokeball />
         </div>
         <NavLink to="/pokedex">Pokedex</NavLink>

@@ -24,10 +24,17 @@
   text-align: center;
   justify-content: center;
   align-items: center;
-  font-size: 1em;
+  font-size: 1.2em;
   @media screen and (max-width: 480px) {
     margin-bottom: 50px;
     width: 100vw;
+  }
+  div {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 }
 
@@ -39,5 +46,17 @@
   margin-top: 5rem;
   input {
     margin: 2rem 0;
+  }
+}
+
+a button {
+  padding: 0.5rem;
+  font-family: "Montserrat", "sans-serif";
+  background-color: #0075be;
+  outline: none;
+  color: #e3e3e3;
+  border-radius: 0.9rem;
+  &:hover {
+    cursor: pointer;
   }
 }
