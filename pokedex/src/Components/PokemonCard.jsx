@@ -9,7 +9,6 @@ import { addToPokdex, removeFromPokdex } from "../store/reducers/pokedex";
 export const PokemonCard = ({ pokemon }) => {
   const [id, setID] = useState();
   const [imageUrl, setimageURL] = useState("");
-  const [data, setData] = useState();
   const [isOnPokedex, setIsOnPokedex] = useState(false);
   const { name, url } = pokemon;
   const { pokemons } = useSelector((state) => state.pokemon);
@@ -33,10 +32,6 @@ export const PokemonCard = ({ pokemon }) => {
     }
   }, [id]);
 
-  useEffect(() => {
-    setData({ ...pokemon });
-  }, [imageUrl]);
-
   function addOrRemoveFromPokedex(pokemonInfo) {
     if (isOnPokedex === false) {
       dispatch(addToPokdex(pokemonInfo));
@@ -55,7 +50,7 @@ export const PokemonCard = ({ pokemon }) => {
             <AddToPokedex
               isOnPokedex={isOnPokedex}
               addOrRemoveFromPokedex={addOrRemoveFromPokedex}
-              data={data}
+              pokemon={pokemon}
             />
           </div>
           <Link to={`/details/${id}`}>
