@@ -3,22 +3,23 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addToPokdex, removeFromPokdex } from "../store/reducers/pokedex";
 
-import { getPokemonAttributes } from "../services/pokemon";
+import { getPokeApiDeepData } from "../services/pokemon";
 import { NavBar, AddToPokedex } from "../Components";
 import { checkIndex } from "../functions";
 
 export const PokemonDetails = () => {
   const { id } = useParams();
-  const { pokemonAttributes, pokemonEvolution, pokemonChracteritics } =
-    getPokemonAttributes(id);
+  const { pokemonAttributes, pokemonEvolution, pokemonSpecies } =
+    getPokeApiDeepData(id);
   const [attributes, setAttributes] = useState();
   const [pokemon, setPokemon] = useState();
   const [isOnPokedex, setIsOnPokedex] = useState(false);
+  const [imageUrl, setimageURL] = useState();
   const { pokemons } = useSelector((state) => state.pokemon);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (pokemonAttributes !== undefined) {
+    if (pokemonAttributes !== undefined && pokemonSpecies !== undefined) {
       const {
         types,
         stats,
@@ -28,10 +29,22 @@ export const PokemonDetails = () => {
         weight,
         species,
       } = pokemonAttributes;
-      setAttributes({ types, stats, front_default, name, height, weight });
+      const { flavor_text_entries, base_happiness, capture_rate } =
+        pokemonSpecies;
+      setAttributes({
+        types,
+        stats,
+        front_default,
+        name,
+        height,
+        weight,
+        flavor_text_entries,
+        base_happiness,
+        capture_rate,
+      });
       setPokemon(species);
     }
-  }, [pokemonAttributes, pokemons]);
+  }, [pokemons, pokemonEvolution, pokemonAttributes]);
 
   useEffect(() => {
     if (attributes !== undefined) {
@@ -43,6 +56,21 @@ export const PokemonDetails = () => {
       }
     }
   }, [attributes]);
+
+  useEffect(() => {
+    if (pokemonEvolution !== undefined) {
+      let evolution = pokemonEvolution.filter((val) => {
+        return val.id !== id;
+      });
+      evolution = evolution.map((val, i) => {
+        return {
+          ...val,
+          img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${val.id}.png`,
+        };
+      });
+      setimageURL(evolution);
+    }
+  }, [pokemonEvolution]);
 
   function addOrRemoveFromPokedex(pokemonInfo) {
     if (isOnPokedex === false) {
@@ -59,7 +87,7 @@ export const PokemonDetails = () => {
         <figure>
           <img src={attributes?.front_default} alt={attributes?.name} />
           <figcaption>{attributes?.name}</figcaption>
-          <p>{pokemonChracteritics?.descriptions.at(7)?.description}</p>
+          <p>{attributes?.flavor_text_entries.at(0)?.flavor_text}</p>
           <AddToPokedex
             addOrRemoveFromPokedex={addOrRemoveFromPokedex}
             isOnPokedex={isOnPokedex}
@@ -67,6 +95,7 @@ export const PokemonDetails = () => {
           />
         </figure>
         <ul className="container__types">
+          <p>Type :</p>
           {attributes?.types.map((val) => (
             <li key={val.slot}>{val.type.name}</li>
           ))}
@@ -79,11 +108,31 @@ export const PokemonDetails = () => {
             </li>
           ))}
         </ul>
-        <span>Caractéritiques</span>
-        <div>
-          <p>height : {attributes?.height}</p>
-          <p>weight : {attributes?.weight}</p>
+        <span>Profil</span>
+        <div className="container__profil">
+          <p>Height : {attributes?.height}</p>
+          <p>Weight : {attributes?.weight}</p>
+          <p>Base hapineess : {attributes?.base_happiness}</p>
+          <p>Capture rate : {attributes?.capture_rate}</p>
         </div>
+        {imageUrl && imageUrl.length >= 1 && (
+          <>
+            <span>Evolutions</span>
+            <div className="container__evolution">
+              {imageUrl &&
+                imageUrl.map((val) => {
+                  return (
+                    <div key={val.name}>
+                      <figure>
+                        <img src={val?.img} alt={val?.img} />
+                        <figcaption>{val?.name}</figcaption>
+                      </figure>
+                    </div>
+                  );
+                })}
+            </div>
+          </>
+        )}
       </section>
     </>
   );
