@@ -74,7 +74,14 @@ export const Home = () => {
     <>
       <NavBar />
       <div className="container__search">
-        <input onChange={searchPokemonByName} ref={inputValue} type="text" />
+        <label htmlFor="search">Rechercher un pokémon</label>
+        <input
+          name="search"
+          placeholder="Pikachu, mew, lucario..."
+          onChange={searchPokemonByName}
+          ref={inputValue}
+          type="text"
+        />
       </div>
       <section className="container__list">
         {pokemonData &&
