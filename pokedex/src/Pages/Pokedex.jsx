@@ -1,7 +1,8 @@
 import React from "react";
-import { NavBar } from "../Components";
 import { useSelector } from "react-redux";
-import { PokemonCard } from "../Components";
+
+import { PokemonCard, NavBar } from "../Components";
+
 export const Pokedex = () => {
   const { pokemons } = useSelector((state) => state.pokemon);
 

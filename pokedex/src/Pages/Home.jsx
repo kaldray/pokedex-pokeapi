@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
-import { usePokeApi } from "../services";
+import { getPokeApi } from "../services";
 import { PokemonCard, NavBar } from "../Components";
 
 export const Home = () => {
-  const { pokeApi } = usePokeApi();
+  const { pokeApi } = getPokeApi();
   const [pokemonData, setPokemonData] = useState([]);
   const [filterPokemonData, setFilterPokemonData] = useState([]);
   const [windowHeigth, setWindowHeigth] = useState();

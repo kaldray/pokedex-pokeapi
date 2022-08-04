@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
+
 import * as Pages from "./Pages";
 
 function App() {

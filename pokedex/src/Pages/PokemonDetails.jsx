@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addToPokdex, removeFromPokdex } from "../store/reducers/pokedex";
 
-import { getPokeApiDeepData } from "../services/pokemon";
 import { NavBar, AddToPokedex } from "../Components";
+import { getPokeApiDeepData } from "../services";
 import { checkIndex } from "../functions";
 
 export const PokemonDetails = () => {

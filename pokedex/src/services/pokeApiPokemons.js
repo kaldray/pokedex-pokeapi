@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
-export const usePokeApi = () => {
+export const getPokeApi = () => {
   const [pokeApi, setPokeApi] = useState();
 
   useEffect(() => {
@@ -16,5 +16,5 @@ export const usePokeApi = () => {
     fetchPokemon();
   }, []);
 
-  return { pokeApi, setPokeApi };
+  return { pokeApi };
 };

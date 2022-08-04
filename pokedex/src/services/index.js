@@ -1,2 +1,2 @@
-export { usePokeApi } from "./pokemons";
-export { getPokeApiDeepData } from "./pokemon";
+export { getPokeApi } from "./pokeApiPokemons";
+export { getPokeApiDeepData } from "./pokeApiPokemon";

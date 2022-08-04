@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-// @ts-ignore
+
 import { ReactComponent as Pokeball } from "../assets/pokeballHome.svg";
 
 export const NavBar = () => {

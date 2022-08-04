@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+
 import { ReactComponent as PokeballFull } from "../assets/pokeballFull.svg";
 import { ReactComponent as PokeballEmpty } from "../assets/pokeballEmpty.svg";
 
