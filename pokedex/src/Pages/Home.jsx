@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
+
 import { usePokeApi } from "../services";
 import { PokemonCard, NavBar } from "../Components";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 
 export const Home = () => {
   const { pokeApi } = usePokeApi();
@@ -12,8 +12,6 @@ export const Home = () => {
   const [scrollPosition, setScrollPosition] = useState();
   const [nextResult, setNextResult] = useState([]);
   const inputValue = useRef(null);
-  const { pokemons } = useSelector((state) => state.pokemon);
-
 
   function getScrollPosition(e) {
     e.preventDefault();
@@ -56,7 +54,6 @@ export const Home = () => {
           return response;
         })
         .then((res) => {
-          console.log(res.data.next);
           setNextResult(res.data.next);
           setPokemonData((prevState) => [...prevState, ...res.data.results]);
           setFilterPokemonData((prevState) => [

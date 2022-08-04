@@ -1,9 +1,10 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { extractId, checkIndex } from "../functions";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AddToPokedex } from "../Components/AddToPokedex";
+
 import { useSelector, useDispatch } from "react-redux";
+
+import { extractId, checkIndex } from "../functions";
+import { AddToPokedex } from "../Components";
 import { addToPokdex, removeFromPokdex } from "../store/reducers/pokedex";
 
 export const PokemonCard = ({ pokemon }) => {

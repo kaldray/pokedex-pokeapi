@@ -12,7 +12,9 @@ export const NavBar = () => {
     <>
       <nav>
         <div className="container">
-          <h1 onClick={goToHome}> Pokedex</h1>
+          <h1 style={{ cursor: "pointer" }} onClick={goToHome}>
+            Pokedex
+          </h1>
           <Pokeball />
         </div>
         <NavLink to="/pokedex">Pokedex</NavLink>
