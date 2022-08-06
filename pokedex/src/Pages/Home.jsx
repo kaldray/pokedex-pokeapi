@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 import { getPokeApi } from "../services";
-import { PokemonCard, NavBar } from "../Components";
+import { PokemonCard, NavBar, Modal } from "../Components";
 
 export const Home = () => {
   const { pokeApi } = getPokeApi();
@@ -12,6 +13,8 @@ export const Home = () => {
   const [scrollPosition, setScrollPosition] = useState();
   const [nextResult, setNextResult] = useState([]);
   const inputValue = useRef(null);
+  const pokemonList = useRef(null);
+  const { pokemon } = useSelector((state) => state.modal);
 
   function getScrollPosition(e) {
     e.preventDefault();
@@ -73,6 +76,7 @@ export const Home = () => {
   return (
     <>
       <NavBar />
+      <Modal htmlRef={pokemonList} pokemon={pokemon.pokemon} />
       <div className="container__search">
         <label htmlFor="search">Rechercher un pokémon</label>
         <input
@@ -83,7 +87,7 @@ export const Home = () => {
           type="text"
         />
       </div>
-      <section className="container__list">
+      <section ref={pokemonList} className="container__list">
         {pokemonData &&
           pokemonData.map((pokemon) => (
             <PokemonCard key={pokemon.name} pokemon={pokemon} />

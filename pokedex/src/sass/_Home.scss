@@ -8,6 +8,7 @@
   row-gap: 50px;
   place-items: center;
   margin: auto;
+
   @media (max-width: 480px) {
     grid-template-columns: auto;
     grid-column: 1;
@@ -72,4 +73,33 @@ a button {
   &:hover {
     cursor: pointer;
   }
+}
+
+dialog {
+  width: 80%;
+  padding: 1rem;
+  margin: auto;
+  border-radius: 0.9rem;
+  position: fixed;
+  top: 10%;
+  background-color: #e3e3e3;
+  div {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    justify-content: space-between;
+
+    button {
+      border-radius: 0.9rem;
+      padding: 0.5rem;
+      border: none;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.disable {
+  pointer-events: none;
 }

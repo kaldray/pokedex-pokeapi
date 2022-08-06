@@ -1,32 +1,41 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 
 import { ReactComponent as PokeballFull } from "../assets/pokeballFull.svg";
 import { ReactComponent as PokeballEmpty } from "../assets/pokeballEmpty.svg";
 
-export const AddToPokedex = ({
-  addOrRemoveFromPokedex,
-  isOnPokedex,
-  pokemon,
-}) => {
+import { openModal } from "../store/reducers/modal";
+import { addToPokdex } from "../store/reducers/pokedex";
+
+export const AddToPokedex = ({ isOnPokedex, pokemon }) => {
+  const dispatch = useDispatch();
+
   const style = {
     height: "20px",
     width: "20px",
     cursor: "pointer",
   };
 
+  function openTheModal() {
+    dispatch(openModal(pokemon));
+  }
+
+  function addToPokedexPage(pokemonInfo) {
+    dispatch(addToPokdex(pokemonInfo));
+  }
+
   return (
     <>
       {isOnPokedex === false && (
         <PokeballEmpty
-          onClick={() => addOrRemoveFromPokedex(pokemon)}
+          onClick={() => addToPokedexPage(pokemon)}
           style={style}
         />
       )}
       {isOnPokedex === true && (
-        <PokeballFull
-          onClick={() => addOrRemoveFromPokedex(pokemon)}
-          style={style}
-        />
+        <>
+          <PokeballFull onClick={openTheModal} style={style} />
+        </>
       )}
     </>
   );

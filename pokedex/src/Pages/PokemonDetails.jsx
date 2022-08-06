@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { addToPokdex, removeFromPokdex } from "../store/reducers/pokedex";
+import { useSelector } from "react-redux";
 
-import { NavBar, AddToPokedex } from "../Components";
+import { NavBar, AddToPokedex, Modal } from "../Components";
 import { getPokeApiDeepData } from "../services";
 import { checkIndex } from "../functions";
 
@@ -12,11 +11,12 @@ export const PokemonDetails = () => {
   const { pokemonAttributes, pokemonEvolution, pokemonSpecies } =
     getPokeApiDeepData(id);
   const [attributes, setAttributes] = useState();
-  const [pokemon, setPokemon] = useState();
+  const [species, setPokemonSpecies] = useState();
   const [isOnPokedex, setIsOnPokedex] = useState(false);
   const [imageUrl, setimageURL] = useState();
   const { pokemons } = useSelector((state) => state.pokemon);
-  const dispatch = useDispatch();
+  const pokemonCard = useRef(null);
+  const { pokemon } = useSelector((state) => state.modal);
 
   useEffect(() => {
     if (pokemonAttributes !== undefined && pokemonSpecies !== undefined) {
@@ -42,7 +42,7 @@ export const PokemonDetails = () => {
         base_happiness,
         capture_rate,
       });
-      setPokemon(species);
+      setPokemonSpecies(species);
     }
   }, [pokemons, pokemonEvolution, pokemonAttributes]);
 
@@ -72,27 +72,16 @@ export const PokemonDetails = () => {
     }
   }, [pokemonEvolution]);
 
-  function addOrRemoveFromPokedex(pokemonInfo) {
-    if (isOnPokedex === false) {
-      dispatch(addToPokdex(pokemonInfo));
-    } else {
-      dispatch(removeFromPokdex(pokemonInfo));
-    }
-  }
-
   return (
     <>
       <NavBar />
+      <Modal htmlRef={pokemonCard} pokemon={pokemon.pokemon} />
       <section className="container__unique top">
         <figure>
           <img src={attributes?.front_default} alt={attributes?.name} />
           <figcaption>{attributes?.name}</figcaption>
           <p>{attributes?.flavor_text_entries.at(0)?.flavor_text}</p>
-          <AddToPokedex
-            addOrRemoveFromPokedex={addOrRemoveFromPokedex}
-            isOnPokedex={isOnPokedex}
-            pokemon={pokemon}
-          />
+          <AddToPokedex isOnPokedex={isOnPokedex} pokemon={species} />
         </figure>
         <ul className="container__types">
           <p>Type :</p>

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { extractId, checkIndex } from "../functions";
 import { AddToPokedex } from "../Components";
-import { addToPokdex, removeFromPokdex } from "../store/reducers/pokedex";
 
 export const PokemonCard = ({ pokemon }) => {
   const [id, setID] = useState();
@@ -13,7 +11,6 @@ export const PokemonCard = ({ pokemon }) => {
   const [isOnPokedex, setIsOnPokedex] = useState(false);
   const { name, url } = pokemon;
   const { pokemons } = useSelector((state) => state.pokemon);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (checkIndex(pokemons, pokemon) !== undefined) {
@@ -33,14 +30,6 @@ export const PokemonCard = ({ pokemon }) => {
     }
   }, [id]);
 
-  function addOrRemoveFromPokedex(pokemonInfo) {
-    if (isOnPokedex === false) {
-      dispatch(addToPokdex(pokemonInfo));
-    } else {
-      dispatch(removeFromPokdex(pokemonInfo));
-    }
-  }
-
   return (
     <>
       {imageUrl && (
@@ -48,11 +37,7 @@ export const PokemonCard = ({ pokemon }) => {
           <img width="100px" height="100px" src={imageUrl}></img>
           <div>
             <p>{name}</p>
-            <AddToPokedex
-              isOnPokedex={isOnPokedex}
-              addOrRemoveFromPokedex={addOrRemoveFromPokedex}
-              pokemon={pokemon}
-            />
+            <AddToPokedex isOnPokedex={isOnPokedex} pokemon={pokemon} />
           </div>
           <Link to={`/details/${id}`}>
             <button>Voir la fiche du pokémon.</button>
