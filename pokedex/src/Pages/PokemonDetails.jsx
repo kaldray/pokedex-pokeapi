@@ -16,6 +16,7 @@ export const PokemonDetails = () => {
   const [imageUrl, setimageURL] = useState();
   const { pokemons } = useSelector((state) => state.pokemon);
   const pokemonCard = useRef(null);
+  const navRef = useRef(null);
   const { pokemon } = useSelector((state) => state.modal);
 
   useEffect(() => {
@@ -74,9 +75,9 @@ export const PokemonDetails = () => {
 
   return (
     <>
-      <NavBar />
-      <Modal htmlRef={pokemonCard} pokemon={pokemon.pokemon} />
-      <section className="container__unique top">
+      <NavBar navRef={navRef} />
+      <Modal navRef={navRef} htmlRef={pokemonCard} pokemon={pokemon.pokemon} />
+      <section ref={pokemonCard} className="container__unique top">
         <figure>
           <img src={attributes?.front_default} alt={attributes?.name} />
           <figcaption>{attributes?.name}</figcaption>

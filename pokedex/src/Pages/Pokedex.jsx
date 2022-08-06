@@ -6,12 +6,13 @@ import { PokemonCard, NavBar, Modal } from "../Components";
 export const Pokedex = () => {
   const { pokemons } = useSelector((state) => state.pokemon);
   const { pokemon } = useSelector((state) => state.modal);
+  const navRef = useRef(null);
   const pokedexList = useRef(null);
 
   return (
     <>
-      <NavBar />
-      <Modal htmlRef={pokedexList} pokemon={pokemon.pokemon} />
+      <NavBar navRef={navRef} />
+      <Modal navRef={navRef} htmlRef={pokedexList} pokemon={pokemon.pokemon} />
       <section ref={pokedexList} className="container__list top">
         {pokemons &&
           pokemons.map((pokemon) => (

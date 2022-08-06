@@ -14,6 +14,7 @@ export const Home = () => {
   const [nextResult, setNextResult] = useState([]);
   const inputValue = useRef(null);
   const pokemonList = useRef(null);
+  const navRef = useRef(null);
   const { pokemon } = useSelector((state) => state.modal);
 
   function getScrollPosition(e) {
@@ -75,8 +76,8 @@ export const Home = () => {
 
   return (
     <>
-      <NavBar />
-      <Modal htmlRef={pokemonList} pokemon={pokemon.pokemon} />
+      <NavBar navRef={navRef} />
+      <Modal navRef={navRef} htmlRef={pokemonList} pokemon={pokemon.pokemon} />
       <div className="container__search">
         <label htmlFor="search">Rechercher un pokémon</label>
         <input

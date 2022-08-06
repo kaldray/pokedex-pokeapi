@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeFromPokdex } from "../store/reducers/pokedex";
 import { closeModal } from "../store/reducers/modal";
 
-export const Modal = ({ htmlRef }) => {
+export const Modal = ({ htmlRef, navRef }) => {
   const { isOpen, pokemon } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (htmlRef.current) {
+    if (htmlRef.current || navRef.current) {
       htmlRef.current.classList.toggle("disable");
+      navRef.current.classList.toggle("disable");
     }
   }, [isOpen]);
 
