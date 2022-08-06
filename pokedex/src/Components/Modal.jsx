@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { removeFromPokdex } from "../store/reducers/pokedex";
 import { closeModal } from "../store/reducers/modal";
+import { removeFromLocalStorage } from "../functions";
 
 export const Modal = ({ htmlRef, navRef }) => {
   const { isOpen, pokemon } = useSelector((state) => state.modal);
@@ -21,6 +22,7 @@ export const Modal = ({ htmlRef, navRef }) => {
 
   function removeFromPokedex() {
     dispatch(removeFromPokdex(pokemon));
+    removeFromLocalStorage(pokemon);
     closeTheModal();
   }
 

@@ -6,6 +6,7 @@ import { ReactComponent as PokeballEmpty } from "../assets/pokeballEmpty.svg";
 
 import { openModal } from "../store/reducers/modal";
 import { addToPokdex } from "../store/reducers/pokedex";
+import { addToLocalStorage } from "../functions";
 
 export const AddToPokedex = ({ isOnPokedex, pokemon }) => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export const AddToPokedex = ({ isOnPokedex, pokemon }) => {
 
   function addToPokedexPage(pokemonInfo) {
     dispatch(addToPokdex(pokemonInfo));
+    addToLocalStorage(pokemonInfo);
   }
 
   return (

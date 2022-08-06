@@ -31,3 +31,28 @@ export function getEvolutions(chain, evolutions = []) {
     return getEvolutions(chain?.evolves_to[0], evolutions);
   }
 }
+
+export const addToLocalStorage = (item) => {
+  const dataFromLocalStorage = localStorage.getItem("pokedex");
+  if (dataFromLocalStorage === null) {
+    let arr = [];
+    arr.push(item);
+    localStorage.setItem("pokedex", JSON.stringify(arr));
+  } else {
+    let parsedLocalStorage = JSON.parse(dataFromLocalStorage);
+    console.log(parsedLocalStorage);
+    parsedLocalStorage.push(item);
+    localStorage.setItem("pokedex", JSON.stringify(parsedLocalStorage));
+  }
+};
+
+export function removeFromLocalStorage(item) {
+  const dataFromLocalStorage = localStorage.getItem("pokedex");
+  if (dataFromLocalStorage !== undefined || dataFromLocalStorage !== null) {
+    let parsedLocalStorage = JSON.parse(dataFromLocalStorage);
+    const filteredArr = parsedLocalStorage.filter((val) => {
+      return val.name !== item.name;
+    });
+    localStorage.setItem("pokedex", JSON.stringify(filteredArr));
+  }
+}

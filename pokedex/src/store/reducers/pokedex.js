@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  pokemons: [],
+  pokemons: JSON.parse(localStorage.getItem("pokedex")) ?? [],
 };
 
 export const pokemonSlice = createSlice({
