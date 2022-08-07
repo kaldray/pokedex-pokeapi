@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 import { getPokeApi } from "../services";
-import { PokemonCard, NavBar, Modal, Loader } from "../Components";
+import { PokemonCard, NavBar, Modal, Loader, GoPageTop } from "../Components";
 
 export const Home = () => {
   const { pokeApi, isLoading, setIsLoading } = getPokeApi();
@@ -96,6 +96,7 @@ export const Home = () => {
             <PokemonCard key={pokemon.name} pokemon={pokemon} />
           ))}
       </section>
+      <GoPageTop />
     </>
   );
 };
