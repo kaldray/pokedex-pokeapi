@@ -3,18 +3,25 @@ import axios from "axios";
 
 export const getPokeApi = () => {
   const [pokeApi, setPokeApi] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchPokemon() {
-      const { data } = await axios.get(
-        "https://pokeapi.co/api/v2/pokemon?&limit=50"
-      );
-
-      setPokeApi(data);
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(
+          "https://pokeapi.co/api/v2/pokemon?&limit=50"
+        );
+        setPokeApi(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
     }
 
     fetchPokemon();
   }, []);
 
-  return { pokeApi };
+  return { pokeApi, isLoading, setIsLoading };
 };

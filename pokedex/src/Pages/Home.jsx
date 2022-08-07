@@ -3,10 +3,10 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 import { getPokeApi } from "../services";
-import { PokemonCard, NavBar, Modal } from "../Components";
+import { PokemonCard, NavBar, Modal, Loader } from "../Components";
 
 export const Home = () => {
-  const { pokeApi } = getPokeApi();
+  const { pokeApi, isLoading, setIsLoading } = getPokeApi();
   const [pokemonData, setPokemonData] = useState([]);
   const [filterPokemonData, setFilterPokemonData] = useState([]);
   const [windowHeigth, setWindowHeigth] = useState();
@@ -66,6 +66,7 @@ export const Home = () => {
           ]);
         })
         .catch((error) => {
+          setIsLoading(false);
           console.log(error);
         });
     }
@@ -89,6 +90,7 @@ export const Home = () => {
         />
       </div>
       <section ref={pokemonList} className="container__list">
+        {isLoading === true && <Loader />}
         {pokemonData &&
           pokemonData.map((pokemon) => (
             <PokemonCard key={pokemon.name} pokemon={pokemon} />
