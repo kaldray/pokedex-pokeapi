@@ -1,6 +1,10 @@
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState, AppDispatch } from "../index";
 
-const initialState = {
+import { ModalInitialState } from "types";
+
+const initialState: ModalInitialState = {
   isOpen: false,
   pokemon: {},
 };
@@ -20,5 +24,7 @@ export const modalSlice = createSlice({
 });
 
 export const { openModal, closeModal } = modalSlice.actions;
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export default modalSlice.reducer;

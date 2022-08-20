@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import { NamedAPIResourceList } from "types";
+
 export const getPokeApi = () => {
-  const [pokeApi, setPokeApi] = useState();
+  const [pokeApi, setPokeApi] = useState<NamedAPIResourceList>();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchPokemon() {
       try {
         setIsLoading(true);
-        const { data } = await axios.get(
+        const { data } = await axios.get<NamedAPIResourceList>(
           "https://pokeapi.co/api/v2/pokemon?&limit=50"
         );
         setPokeApi(data);

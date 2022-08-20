@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import { extractId, checkIndex } from "../functions";
 import { AddToPokedex } from "../Components";
+import { PokemonCardProps, Url } from "types";
+import { useAppSelector } from "../store/reducers/pokedex";
 
-export const PokemonCard = ({ pokemon }) => {
-  const [id, setID] = useState();
-  const [imageUrl, setimageURL] = useState("");
+export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
+  const [id, setID] = useState<Url>();
+  const [imageUrl, setimageURL] = useState<Url>();
   const [isOnPokedex, setIsOnPokedex] = useState(false);
   const { name, url } = pokemon;
-  const { pokemons } = useSelector((state) => state.pokemon);
+  const { pokemons } = useAppSelector((state) => state.pokemon);
 
   useEffect(() => {
     if (checkIndex(pokemons, pokemon) !== undefined) {
