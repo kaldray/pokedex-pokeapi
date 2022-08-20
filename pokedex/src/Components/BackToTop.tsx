@@ -1,5 +1,3 @@
-import React from "react";
-
 export const GoPageTop = () => {
   function scrollToTop() {
     window.scrollTo(0, 0);

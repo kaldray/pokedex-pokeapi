@@ -1,23 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 import { getPokeApi } from "../services";
 import { PokemonCard, NavBar, Modal, Loader, GoPageTop } from "../Components";
+import { NamedAPIResource, Url } from "types";
 
 export const Home = () => {
   const { pokeApi, isLoading, setIsLoading } = getPokeApi();
-  const [pokemonData, setPokemonData] = useState([]);
-  const [filterPokemonData, setFilterPokemonData] = useState([]);
-  const [windowHeigth, setWindowHeigth] = useState();
-  const [scrollPosition, setScrollPosition] = useState();
-  const [nextResult, setNextResult] = useState([]);
-  const inputValue = useRef(null);
-  const pokemonList = useRef(null);
-  const navRef = useRef(null);
-  const { pokemon } = useSelector((state) => state.modal);
+  const [pokemonData, setPokemonData] = useState<Array<NamedAPIResource>>();
+  const [filterPokemonData, setFilterPokemonData] = useState<Array<NamedAPIResource>>();
+  const [windowHeigth, setWindowHeigth] = useState<number>();
+  const [scrollPosition, setScrollPosition] = useState<number>();
+  const [nextResult, setNextResult] = useState<Url>();
+  const inputValue = useRef<HTMLInputElement>(null);
+  const pokemonList = useRef<HTMLElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
-  function getScrollPosition(e) {
+  function getScrollPosition(e: Event) {
     e.preventDefault();
     const documentHeigth = Math.ceil(document.documentElement.scrollHeight);
     const windowHeight = Math.ceil(window.innerHeight);
@@ -27,13 +26,15 @@ export const Home = () => {
   }
 
   function searchPokemonByName() {
-    if (inputValue.current !== null) {
+    if (filterPokemonData !== undefined) {
       const filtredPokemonList = filterPokemonData.filter((pokemon) => {
-        return pokemon.name.toLowerCase().includes(inputValue.current.value);
+        if (inputValue.current) {
+          return pokemon.name.toLowerCase().includes(inputValue.current.value);
+        }
       });
       setPokemonData(filtredPokemonList);
     }
-    if (inputValue.current.value === "") {
+    if (inputValue.current && inputValue.current.value === "") {
       setPokemonData(filterPokemonData);
     }
   }
@@ -59,11 +60,16 @@ export const Home = () => {
         })
         .then((res) => {
           setNextResult(res.data.next);
-          setPokemonData((prevState) => [...prevState, ...res.data.results]);
-          setFilterPokemonData((prevState) => [
-            ...prevState,
-            ...res.data.results,
-          ]);
+          setPokemonData((prevState) => {
+            if (prevState !== undefined) {
+              return [...prevState, ...res.data.results];
+            }
+          });
+          setFilterPokemonData((prevState) => {
+            if (prevState !== undefined) {
+              return [...prevState, ...res.data.results];
+            }
+          });
         })
         .catch((error) => {
           setIsLoading(false);
@@ -78,7 +84,7 @@ export const Home = () => {
   return (
     <>
       <NavBar navRef={navRef} />
-      <Modal navRef={navRef} htmlRef={pokemonList} pokemon={pokemon.pokemon} />
+      <Modal navRef={navRef} htmlRef={pokemonList} />
       <div className="container__search">
         <label htmlFor="search">Rechercher un pokémon</label>
         <input
@@ -92,9 +98,7 @@ export const Home = () => {
       <section ref={pokemonList} className="container__list">
         {isLoading === true && <Loader />}
         {pokemonData &&
-          pokemonData.map((pokemon) => (
-            <PokemonCard key={pokemon.name} pokemon={pokemon} />
-          ))}
+          pokemonData.map((pokemon) => <PokemonCard key={pokemon.name} pokemon={pokemon} />)}
       </section>
       <GoPageTop />
     </>

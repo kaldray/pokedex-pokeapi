@@ -1,23 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import { NavBar, AddToPokedex, Modal } from "../Components";
 import { getPokeApiDeepData } from "../services";
 import { checkIndex } from "../functions";
+import { useAppSelector } from "../store/reducers/modal";
+import { CustomPokemonAttributes, Evolution, NamedAPIResource } from "types";
 
 export const PokemonDetails = () => {
   const { id } = useParams();
-  const { pokemonAttributes, pokemonEvolution, pokemonSpecies } =
-    getPokeApiDeepData(id);
-  const [attributes, setAttributes] = useState();
-  const [species, setPokemonSpecies] = useState();
+  const { pokemonAttributes, pokemonEvolution, pokemonSpecies } = getPokeApiDeepData(id);
+  const [attributes, setAttributes] = useState<CustomPokemonAttributes>();
+  const [species, setPokemonSpecies] = useState<NamedAPIResource>();
   const [isOnPokedex, setIsOnPokedex] = useState(false);
-  const [imageUrl, setimageURL] = useState();
-  const { pokemons } = useSelector((state) => state.pokemon);
-  const pokemonCard = useRef(null);
-  const navRef = useRef(null);
-  const { pokemon } = useSelector((state) => state.modal);
+  const [imageUrl, setimageURL] = useState<Array<Evolution>>();
+  const { pokemons } = useAppSelector((state) => state.pokemon);
+  const pokemonCard = useRef<HTMLElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (pokemonAttributes !== undefined && pokemonSpecies !== undefined) {
@@ -30,8 +29,7 @@ export const PokemonDetails = () => {
         weight,
         species,
       } = pokemonAttributes;
-      const { flavor_text_entries, base_happiness, capture_rate } =
-        pokemonSpecies;
+      const { flavor_text_entries, base_happiness, capture_rate } = pokemonSpecies;
       setAttributes({
         types,
         stats,
@@ -48,11 +46,11 @@ export const PokemonDetails = () => {
   }, [pokemons, pokemonEvolution, pokemonAttributes]);
 
   useEffect(() => {
-    if (attributes !== undefined) {
-      if (checkIndex(pokemons, attributes) !== undefined) {
+    if (species !== undefined) {
+      if (checkIndex(pokemons, species) !== undefined) {
         setIsOnPokedex(true);
       }
-      if (checkIndex(pokemons, attributes) === undefined) {
+      if (checkIndex(pokemons, species) === undefined) {
         setIsOnPokedex(false);
       }
     }
@@ -76,23 +74,23 @@ export const PokemonDetails = () => {
   return (
     <>
       <NavBar navRef={navRef} />
-      <Modal navRef={navRef} htmlRef={pokemonCard} pokemon={pokemon.pokemon} />
+      <Modal navRef={navRef} htmlRef={pokemonCard} />
       <section ref={pokemonCard} className="container__unique top">
         <figure>
           <img src={attributes?.front_default} alt={attributes?.name} />
           <figcaption>{attributes?.name}</figcaption>
           <p>{attributes?.flavor_text_entries.at(0)?.flavor_text}</p>
-          <AddToPokedex isOnPokedex={isOnPokedex} pokemon={species} />
+          {species !== undefined && <AddToPokedex isOnPokedex={isOnPokedex} pokemon={species} />}
         </figure>
         <ul className="container__types">
           <p>Type :</p>
-          {attributes?.types.map((val) => (
+          {attributes?.types?.map((val) => (
             <li key={val.slot}>{val.type.name}</li>
           ))}
         </ul>
         <span>Statistiques</span>
         <ul className="container__stats">
-          {attributes?.stats.map((val) => (
+          {attributes?.stats?.map((val) => (
             <li key={val.stat?.name}>
               {val.stat?.name} : {val.base_stat}{" "}
             </li>

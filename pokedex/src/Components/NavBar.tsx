@@ -1,9 +1,9 @@
-import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import { ReactComponent as Pokeball } from "../assets/pokeballHome.svg";
+import { NavBarProps } from "types";
 
-export const NavBar = ({ navRef }) => {
+export const NavBar = ({ navRef }: NavBarProps) => {
   const navigate = useNavigate();
 
   function goToHome() {

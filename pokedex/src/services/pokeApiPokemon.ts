@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 import { getEvolutions } from "../functions";
+import { PokemonAttributes, PokemonSpecies, Evolution, Url } from "types";
 
-export const getPokeApiDeepData = (id) => {
-  const [pokemonAttributes, setPokemonAttributes] = useState();
-  const [pokemonEvolution, setPokemonEvolution] = useState();
-  const [pokemonSpecies, setPokemonSpecies] = useState();
+export const getPokeApiDeepData = (id: string | undefined) => {
+  const [pokemonAttributes, setPokemonAttributes] = useState<PokemonAttributes>();
+  const [pokemonEvolution, setPokemonEvolution] = useState<Array<Evolution>>();
+  const [pokemonSpecies, setPokemonSpecies] = useState<PokemonSpecies>();
 
   async function getPokemonData() {
     axios
-      .get(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+      .get<PokemonAttributes>(`https://pokeapi.co/api/v2/pokemon/${id}/`)
       .then((response) => {
         return response;
       })
@@ -23,20 +24,19 @@ export const getPokeApiDeepData = (id) => {
   }
   async function getPokemonDataSpecies() {
     return axios
-      .get(`https://pokeapi.co/api/v2/pokemon-species/${id}/`)
+      .get<PokemonSpecies>(`https://pokeapi.co/api/v2/pokemon-species/${id}/`)
       .then((response) => {
         return response;
       })
       .then((res) => {
         setPokemonSpecies(res.data);
-        return res.data.evolution_chain;
+        getPokemonDataEvolution(res.data.evolution_chain.url);
       })
       .catch((err) => {
         console.log(err);
       });
   }
-  async function getPokemonDataEvolution() {
-    const { url } = await getPokemonDataSpecies();
+  async function getPokemonDataEvolution(url: Url) {
     axios
       .get(url)
       .then((response) => {
@@ -53,7 +53,7 @@ export const getPokeApiDeepData = (id) => {
   useEffect(() => {
     if (id === undefined) return;
     getPokemonData();
-    getPokemonDataEvolution();
+    getPokemonDataSpecies();
   }, []);
 
   return { pokemonAttributes, pokemonEvolution, pokemonSpecies };

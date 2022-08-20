@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
-import { removeFromPokdex } from "../store/reducers/pokedex";
-import { closeModal } from "../store/reducers/modal";
+import { removeFromPokdex, useAppDispatch } from "../store/reducers/pokedex";
+import { closeModal, useAppSelector } from "../store/reducers/modal";
 import { removeFromLocalStorage } from "../functions";
+import { ModalProps } from "types";
 
-export const Modal = ({ htmlRef, navRef }) => {
-  const { isOpen, pokemon } = useSelector((state) => state.modal);
-  const dispatch = useDispatch();
+export const Modal = ({ htmlRef, navRef }: ModalProps) => {
+  const { isOpen, pokemon } = useAppSelector((state) => state.modal);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (htmlRef.current || navRef.current) {
+    if (htmlRef.current && navRef.current) {
       htmlRef.current.classList.toggle("disable");
       navRef.current.classList.toggle("disable");
     }
@@ -21,9 +21,11 @@ export const Modal = ({ htmlRef, navRef }) => {
   }
 
   function removeFromPokedex() {
-    dispatch(removeFromPokdex(pokemon));
-    removeFromLocalStorage(pokemon);
-    closeTheModal();
+    if ("name" in pokemon && "url" in pokemon) {
+      dispatch(removeFromPokdex(pokemon));
+      removeFromLocalStorage(pokemon);
+      closeTheModal();
+    }
   }
 
   return (

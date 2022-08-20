@@ -1,4 +1,3 @@
-import React from "react";
 import { useDispatch } from "react-redux";
 
 import { ReactComponent as PokeballFull } from "../assets/pokeballFull.svg";
@@ -7,8 +6,9 @@ import { ReactComponent as PokeballEmpty } from "../assets/pokeballEmpty.svg";
 import { openModal } from "../store/reducers/modal";
 import { addToPokdex } from "../store/reducers/pokedex";
 import { addToLocalStorage } from "../functions";
+import { AddToPokedexProps, NamedAPIResource } from "types";
 
-export const AddToPokedex = ({ isOnPokedex, pokemon }) => {
+export const AddToPokedex = ({ isOnPokedex, pokemon }: AddToPokedexProps) => {
   const dispatch = useDispatch();
 
   const style = {
@@ -21,7 +21,7 @@ export const AddToPokedex = ({ isOnPokedex, pokemon }) => {
     dispatch(openModal(pokemon));
   }
 
-  function addToPokedexPage(pokemonInfo) {
+  function addToPokedexPage(pokemonInfo: NamedAPIResource) {
     dispatch(addToPokdex(pokemonInfo));
     addToLocalStorage(pokemonInfo);
   }
@@ -29,10 +29,7 @@ export const AddToPokedex = ({ isOnPokedex, pokemon }) => {
   return (
     <>
       {isOnPokedex === false && (
-        <PokeballEmpty
-          onClick={() => addToPokedexPage(pokemon)}
-          style={style}
-        />
+        <PokeballEmpty onClick={() => addToPokedexPage(pokemon)} style={style} />
       )}
       {isOnPokedex === true && (
         <>

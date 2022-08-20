@@ -1,7 +1,11 @@
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState, AppDispatch } from "../index";
 
-const initialState = {
-  pokemons: JSON.parse(localStorage.getItem("pokedex")) ?? [],
+import { PokemonInitialState } from "types";
+
+const initialState: PokemonInitialState = {
+  pokemons: JSON.parse(localStorage.getItem("pokedex") || "") ?? [],
 };
 
 export const pokemonSlice = createSlice({
@@ -20,5 +24,7 @@ export const pokemonSlice = createSlice({
 });
 
 export const { addToPokdex, removeFromPokdex } = pokemonSlice.actions;
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export default pokemonSlice.reducer;
