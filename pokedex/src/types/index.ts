@@ -119,7 +119,7 @@ export type StateVariable<T> = {
 };
 
 export type PokemonInitialState = {
-  pokemons: Array<NamedAPIResource>;
+  pokedex: Array<NamedAPIResource>;
 };
 
 export type ModalInitialState = {

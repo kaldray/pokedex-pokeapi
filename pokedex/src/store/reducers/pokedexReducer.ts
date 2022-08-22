@@ -2,19 +2,25 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { PokemonInitialState } from "types";
 
+const storageLocal = localStorage.getItem("pokedex");
+let parsedLocalStorage;
+if (typeof storageLocal === "string") {
+  parsedLocalStorage = JSON.parse(storageLocal);
+}
+
 const initialState: PokemonInitialState = {
-  pokemons: JSON.parse(localStorage.getItem("pokedex") || "") ?? [],
+  pokedex: parsedLocalStorage ?? [],
 };
 
 export const pokemonSlice = createSlice({
-  name: "pokemon",
+  name: "pokedex",
   initialState: initialState,
   reducers: {
     addToPokdex: (state, action) => {
-      state.pokemons.push(action.payload);
+      state.pokedex.push(action.payload);
     },
     removeFromPokdex: (state, action) => {
-      state.pokemons = state.pokemons.filter(({ name }) => {
+      state.pokedex = state.pokedex.filter(({ name }) => {
         return name !== action.payload.name;
       });
     },

@@ -14,7 +14,7 @@ export const PokemonDetails = () => {
   const [species, setPokemonSpecies] = useState<NamedAPIResource>();
   const [isOnPokedex, setIsOnPokedex] = useState(false);
   const [imageUrl, setimageURL] = useState<Array<Evolution>>();
-  const { pokemons } = useAppSelector((state) => state.pokemon);
+  const { pokedex } = useAppSelector((state) => state.pokedex);
   const pokemonCard = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
 
@@ -43,14 +43,14 @@ export const PokemonDetails = () => {
       });
       setPokemonSpecies(species);
     }
-  }, [pokemons, pokemonEvolution, pokemonAttributes]);
+  }, [pokedex, pokemonEvolution, pokemonAttributes]);
 
   useEffect(() => {
     if (species !== undefined) {
-      if (checkIndex(pokemons, species) !== undefined) {
+      if (checkIndex(pokedex, species) !== undefined) {
         setIsOnPokedex(true);
       }
-      if (checkIndex(pokemons, species) === undefined) {
+      if (checkIndex(pokedex, species) === undefined) {
         setIsOnPokedex(false);
       }
     }

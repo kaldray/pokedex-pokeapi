@@ -11,16 +11,16 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
   const [imageUrl, setimageURL] = useState<Url>();
   const [isOnPokedex, setIsOnPokedex] = useState(false);
   const { name, url } = pokemon;
-  const { pokemons } = useAppSelector((state) => state.pokemon);
+  const { pokedex } = useAppSelector((state) => state.pokedex);
 
   useEffect(() => {
-    if (checkIndex(pokemons, pokemon) !== undefined) {
+    if (checkIndex(pokedex, pokemon) !== undefined) {
       setIsOnPokedex(true);
     }
-    if (checkIndex(pokemons, pokemon) === undefined) {
+    if (checkIndex(pokedex, pokemon) === undefined) {
       setIsOnPokedex(false);
     }
-  }, [pokemons]);
+  }, [pokedex]);
 
   useEffect(() => {
     setID(extractId(url));
