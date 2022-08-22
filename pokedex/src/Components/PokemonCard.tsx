@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { extractId, checkIndex } from "../functions";
 import { AddToPokedex } from "../Components";
 import { PokemonCardProps, Url } from "types";
-import { useAppSelector } from "../store/reducers/pokedex";
+import { useAppSelector } from "../store/hooks";
 
 export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
   const [id, setID] = useState<Url>();

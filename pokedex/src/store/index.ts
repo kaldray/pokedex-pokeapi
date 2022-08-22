@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import pokemonReducer from "./reducers/pokedex";
-import modalReducer from "./reducers/modal";
+import pokemonReducer from "./reducers/pokedexReducer";
+import modalReducer from "./reducers/modalReducer";
+import responseHanfler from "./reducers/responseReducer";
 export const store = configureStore({
   reducer: {
     pokemon: pokemonReducer,
     modal: modalReducer,
+    loader: responseHanfler,
   },
 });
 

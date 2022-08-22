@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 
 import { PokemonCard, NavBar, Modal } from "../Components";
 
-import { useAppSelector } from "../store/reducers/modal";
+import { useAppSelector } from "../store/hooks";
 
 export const Pokedex = () => {
   const { pokemons } = useAppSelector((state) => state.pokemon);

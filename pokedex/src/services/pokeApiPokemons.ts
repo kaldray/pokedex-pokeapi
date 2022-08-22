@@ -1,29 +1,31 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useEffect } from "react";
+import axios, { AxiosError } from "axios";
 
 import { NamedAPIResourceList } from "types";
+import { useAppDispatch } from "../store/hooks";
+import { getPokeApi } from "../store/reducers/responseReducer";
 
-export const getPokeApi = () => {
-  const [pokeApi, setPokeApi] = useState<NamedAPIResourceList>();
-  const [isLoading, setIsLoading] = useState(false);
+export const fetchPokeApi = () => {
+  const dispatch = useAppDispatch();
+  const message = "Une erreur est survenue";
 
   useEffect(() => {
     async function fetchPokemon() {
       try {
-        setIsLoading(true);
-        const { data } = await axios.get<NamedAPIResourceList>(
-          "https://pokeapi.co/api/v2/pokemon?&limit=50"
+        const { data, status } = await axios.get<NamedAPIResourceList>(
+          "https://pokeapi.co/api/v2/pokemon?&limit=150"
         );
-        setPokeApi(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
+        dispatch(getPokeApi({ pokeApi: data, status, isLoading: false }));
+      } catch (error: unknown) {
+        if (error instanceof AxiosError) {
+          if (error.response !== undefined) {
+            dispatch(
+              getPokeApi({ status: error.response?.status, isLoading: false, message: message })
+            );
+          }
+        }
       }
     }
-
     fetchPokemon();
   }, []);
-
-  return { pokeApi, isLoading, setIsLoading };
 };

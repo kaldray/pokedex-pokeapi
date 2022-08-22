@@ -221,10 +221,22 @@ export type Evolution = {
   img?: string;
 };
 
-export type ok = Pick<PokemonSpecies, "flavor_text_entries" | "base_happiness" | "capture_rate">;
+export type CustomPokemonSpecies = Pick<
+  PokemonSpecies,
+  "flavor_text_entries" | "base_happiness" | "capture_rate"
+>;
 
-export type CustomPokemonAttributes = Partial<PokemonAttributes> & { front_default: string } & ok;
+export type CustomPokemonAttributes = Partial<PokemonAttributes> & {
+  front_default: string;
+} & CustomPokemonSpecies;
 
 export type NavBarProps = {
   navRef: RefObject<HTMLElement>;
+};
+
+export type ResponseHandler = {
+  isLoading: boolean;
+  status: number;
+  message?: string;
+  pokeApi?: NamedAPIResourceList | {};
 };

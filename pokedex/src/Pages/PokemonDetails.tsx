@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { NavBar, AddToPokedex, Modal } from "../Components";
 import { getPokeApiDeepData } from "../services";
 import { checkIndex } from "../functions";
-import { useAppSelector } from "../store/reducers/modal";
+import { useAppSelector } from "../store/hooks";
 import { CustomPokemonAttributes, Evolution, NamedAPIResource } from "types";
 
 export const PokemonDetails = () => {

@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 
-import { removeFromPokdex, useAppDispatch } from "../store/reducers/pokedex";
-import { closeModal, useAppSelector } from "../store/reducers/modal";
+import { removeFromPokdex } from "../store/reducers/pokedexReducer";
+import { closeModal } from "../store/reducers/modalReducer";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { removeFromLocalStorage } from "../functions";
 import { ModalProps } from "types";
 

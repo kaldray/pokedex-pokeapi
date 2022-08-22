@@ -24,7 +24,5 @@ export const modalSlice = createSlice({
 });
 
 export const { openModal, closeModal } = modalSlice.actions;
-export const useAppDispatch: () => AppDispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export default modalSlice.reducer;

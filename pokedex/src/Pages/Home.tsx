@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
-import { getPokeApi } from "../services";
+import { fetchPokeApi } from "../services";
 import { PokemonCard, NavBar, Modal, Loader, GoPageTop } from "../Components";
 import { NamedAPIResource, Url } from "types";
+import { useAppSelector } from "../store/hooks";
 
 export const Home = () => {
-  const { pokeApi, isLoading, setIsLoading } = getPokeApi();
+  fetchPokeApi();
   const [pokemonData, setPokemonData] = useState<Array<NamedAPIResource>>();
   const [filterPokemonData, setFilterPokemonData] = useState<Array<NamedAPIResource>>();
   const [windowHeigth, setWindowHeigth] = useState<number>();
@@ -15,6 +16,7 @@ export const Home = () => {
   const inputValue = useRef<HTMLInputElement>(null);
   const pokemonList = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
+  const { isLoading, pokeApi, message } = useAppSelector((state) => state.loader);
 
   function getScrollPosition(e: Event) {
     e.preventDefault();
@@ -40,9 +42,11 @@ export const Home = () => {
   }
 
   useEffect(() => {
-    setPokemonData(pokeApi?.results);
-    setFilterPokemonData(pokeApi?.results);
-    setNextResult(pokeApi?.next);
+    if (pokeApi !== undefined && "results" in pokeApi) {
+      setPokemonData(pokeApi?.results);
+      setFilterPokemonData(pokeApi?.results);
+      setNextResult(pokeApi?.next);
+    }
   }, [pokeApi]);
 
   useEffect(() => {
@@ -72,7 +76,7 @@ export const Home = () => {
           });
         })
         .catch((error) => {
-          setIsLoading(false);
+          false;
           console.log(error);
         });
     }
@@ -85,22 +89,32 @@ export const Home = () => {
     <>
       <NavBar navRef={navRef} />
       <Modal navRef={navRef} htmlRef={pokemonList} />
-      <div className="container__search">
-        <label htmlFor="search">Rechercher un pokémon</label>
-        <input
-          name="search"
-          placeholder="Pikachu, mew, lucario..."
-          onChange={searchPokemonByName}
-          ref={inputValue}
-          type="text"
-        />
-      </div>
-      <section ref={pokemonList} className="container__list">
+      <main>
         {isLoading === true && <Loader />}
-        {pokemonData &&
-          pokemonData.map((pokemon) => <PokemonCard key={pokemon.name} pokemon={pokemon} />)}
-      </section>
-      <GoPageTop />
+        {message === undefined ? (
+          <>
+            <div className="container__search">
+              <label htmlFor="search">Rechercher un pokémon</label>
+              <input
+                name="search"
+                placeholder="Pikachu, mew, lucario..."
+                onChange={searchPokemonByName}
+                ref={inputValue}
+                type="text"
+              />
+            </div>
+            <section ref={pokemonList} className="container__list">
+              {pokemonData &&
+                pokemonData.map((pokemon) => <PokemonCard key={pokemon.name} pokemon={pokemon} />)}
+            </section>
+            <GoPageTop />
+          </>
+        ) : (
+          <section className="container__error">
+            <p>{message}</p>
+          </section>
+        )}
+      </main>
     </>
   );
 };
