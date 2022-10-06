@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { ResponseHandler } from "types";
+import { ResponseHandler } from "../../types";
 
 const initialState: ResponseHandler = {
   isLoading: true,
   status: 0,
-  pokeApi: {},
+  pokeApi: undefined,
   message: "",
 };
 

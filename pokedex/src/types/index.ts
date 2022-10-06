@@ -238,5 +238,5 @@ export type ResponseHandler = {
   isLoading: boolean;
   status: number;
   message?: string;
-  pokeApi?: NamedAPIResourceList | {};
+  pokeApi?: NamedAPIResourceList ;
 };

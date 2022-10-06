@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { extractId, checkIndex } from "../functions";
 import { AddToPokedex } from "../Components";
-import { PokemonCardProps, Url } from "types";
+import { PokemonCardProps, Url } from "../types";
 import { useAppSelector } from "../store/hooks";
 
 export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
@@ -35,7 +35,7 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => {
     <>
       {imageUrl && (
         <div className="card">
-          <img width="100px" height="100px" src={imageUrl}></img>
+          <img width="100px" height="100px" src={imageUrl} alt={name}></img>
           <div>
             <p>{name}</p>
             <AddToPokedex isOnPokedex={isOnPokedex} pokemon={pokemon} />

@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { PokemonInitialState } from "types";
+import { NamedAPIResource, PokemonInitialState } from "../../types";
 
 const storageLocal = localStorage.getItem("pokedex");
-let parsedLocalStorage;
+let parsedLocalStorage: NamedAPIResource[] = [];
 if (typeof storageLocal === "string") {
   parsedLocalStorage = JSON.parse(storageLocal);
 }
