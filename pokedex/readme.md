@@ -18,5 +18,5 @@ pnpm dev
 
 👤 **Jordray Kalenga**
 
-- Website: https://jordraydev.alwaysdata.net/
+- Website: https://jordraydev.netlify.app/
 - Github: [@kaldray](https://github.com/kaldray)
